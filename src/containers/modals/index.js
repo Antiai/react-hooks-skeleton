@@ -1,19 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as actions from '@store/actions';
 import * as modals from './config.js';
 
-class Modals extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
-    modal: PropTypes.object.isRequired,
-  };
-
-  getModal() {
-    const { dispatch, history, modal } = this.props;
-
+function Modals({ dispatch, history, modal }) {
+  function getModal() {
     const props = {
       ...modal.params,
       history,
@@ -24,35 +16,39 @@ class Modals extends Component {
 
     if (modal.show) {
       if (!(modal.params && modal.params.noOverflow)) {
-        this.hideBodyOverflow();
+        hideBodyOverflow();
       }
       if (modals[modal.name]) {
         const Component = modals[modal.name];
         return <Component {...props} />;
       }
     } else {
-      this.resetBodyOverflow();
+      resetBodyOverflow();
     }
 
     return null;
   }
 
-  hideBodyOverflow() {
+  function hideBodyOverflow() {
     if (document.body.style.overflow !== 'hidden') {
       //document.body.style.overflow = 'hidden';
     }
   }
 
-  resetBodyOverflow() {
+  function resetBodyOverflow() {
     if (document.body.style.overflow === 'hidden') {
       //document.body.style.overflow = '';
     }
   }
 
-  render() {
-    return this.getModal();
-  }
+  return getModal();
 }
+
+Modals.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  modal: PropTypes.object.isRequired,
+};
 
 export default connect(state => ({
   modal: state.modal,
