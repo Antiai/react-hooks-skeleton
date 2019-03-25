@@ -1,33 +1,27 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '@store/actions';
 import { Button } from '@components/elements';
 import { LayoutModal } from '@components/layouts';
 
-class Info extends Component {
-  onCancel = () => {
-    this.props.dispatch(actions.modal.close(false));
+function Info(props) {
+  const { dispatch } = props;
+
+  const onCancel = () => {
+    dispatch(actions.modal.close(false));
   };
 
-  onSuccess = () => {
-    this.props.dispatch(actions.modal.close(true));
+  const onSuccess = () => {
+    dispatch(actions.modal.close(true));
   };
 
-  renderFooter() {
-    return (
-      <Fragment>
-        <Button onClick={this.onSuccess}>Всё понятно</Button>
-      </Fragment>
-    );
-  }
+  const renderFooter = () => <Button onClick={onSuccess}>Всё понятно</Button>;
 
-  render() {
-    return (
-      <LayoutModal onClose={this.onCancel} footer={this.renderFooter()}>
-        Модальное окно
-      </LayoutModal>
-    );
-  }
+  return (
+    <LayoutModal onClose={onCancel} footer={renderFooter()}>
+      Модальное окно
+    </LayoutModal>
+  );
 }
 
 export default connect()(Info);

@@ -1,28 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import list from './images';
 
-class Icon extends Component {
-  static propTypes = {
-    name: PropTypes.string.isRequired,
-    className: PropTypes.string,
-  };
+function Icon(props) {
+  const { name, className, ...rest } = props;
 
-  static defualtProps = {
-    className: undefined,
-  };
-
-  render() {
-    const { name, className, ...rest } = this.props;
-
-    if (!list[name]) {
-      throw new Error(`Icon not found ${name}`);
-    }
-
-    const Element = list[name];
-
-    return <Element className={className} {...rest} />;
+  if (!list[name]) {
+    throw new Error(`Icon not found ${name}`);
   }
+
+  const Element = list[name];
+
+  return <Element className={className} {...rest} />;
 }
+
+Icon.propTypes = {
+  name: PropTypes.string.isRequired,
+  className: PropTypes.string,
+};
+
+Icon.defualtProps = {
+  className: '',
+};
 
 export default Icon;

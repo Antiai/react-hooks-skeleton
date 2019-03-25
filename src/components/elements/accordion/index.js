@@ -1,8 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import noop from 'lodash/noop';
-import { themes } from '../../../utils';
+import { themes, noop } from '@utils';
 
 import './style.less';
 
