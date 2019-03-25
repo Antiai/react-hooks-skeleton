@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -9,36 +9,35 @@ import LayoutPage from '@components/layouts/layout-page';
 import LayoutContent from '@components/layouts/layout-content';
 import HeaderContainer from '@containers/header-container';
 
-class Home extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
-  };
+function Home(props) {
+  const { dispatch } = props;
 
-  showInfo = () => {
-    this.props.dispatch(actions.modal.open('info')).then(result => {
+  const showInfo = useCallback(() => {
+    dispatch(actions.modal.open('info')).then(result => {
       console.log(result);
     });
-  };
+  }, [dispatch]);
 
-  render() {
-    return (
-      <LayoutPage header={<HeaderContainer />}>
-        <LayoutContent>
-          <h1>Главная страница</h1>
-          <p>
-            <Link to="/main">Раздел для авторизованных</Link>
-          </p>
-          <p>
-            <Button onClick={this.showInfo}>Показать модалку</Button>
-          </p>
-          <Accordion title={'Заголовок'}>
-            text for accordion, with other components, ex. <Button>Button</Button>
-          </Accordion>
-        </LayoutContent>
-      </LayoutPage>
-    );
-  }
+  return (
+    <LayoutPage header={<HeaderContainer />}>
+      <LayoutContent>
+        <h1>Главная страница</h1>
+        <p>
+          <Link to="/main">Раздел для авторизованных</Link>
+        </p>
+        <p>
+          <Button onClick={showInfo}>Показать модалку</Button>
+        </p>
+        <Accordion title={'Заголовок'}>
+          text for accordion, with other components, ex. <Button>Button</Button>
+        </Accordion>
+      </LayoutContent>
+    </LayoutPage>
+  );
 }
+
+Home.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
 
 export default connect()(Home);

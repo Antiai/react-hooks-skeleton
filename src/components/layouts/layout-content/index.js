@@ -1,25 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { themes } from '../../../utils';
 
 import './style.less';
 
-class LayoutContent extends Component {
-  static propTypes = {
-    children: PropTypes.node,
-    theme: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  };
+function LayoutContent(props) {
+  const { children, theme } = props;
 
-  static defaultProps = {
-    theme: ['default'],
-  };
-
-  render() {
-    const { children, theme } = this.props;
-
-    return <div className={cn(`LayoutContent`, themes('LayoutContent', theme))}>{children}</div>;
-  }
+  return <div className={cn(`LayoutContent`, themes('LayoutContent', theme))}>{children}</div>;
 }
+
+LayoutContent.propTypes = {
+  children: PropTypes.node,
+  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+};
+
+LayoutContent.defaultProps = {
+  theme: ['default'],
+};
 
 export default LayoutContent;

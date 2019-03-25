@@ -15,9 +15,10 @@ import Login from '../pages/login';
 import NotFound from '../pages/not-found';
 import Modals from '../modals';
 
+const history = createBrowserHistory();
+
 function App(props) {
   const { dispatch, session } = props;
-  const history = createBrowserHistory();
 
   useEffect(() => {
     dispatch(actions.session.remind());
