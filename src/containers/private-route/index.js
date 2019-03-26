@@ -1,11 +1,13 @@
 /* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useMappedState } from 'redux-react-hook';
 import { Route, Redirect } from 'react-router-dom';
+import * as selectors from '@store/selectors';
 
 function PrivateRoute(props) {
-  const { session, component: Component, ...rest } = props;
+  const { component: Component, ...rest } = props;
+  const { session } = useMappedState(selectors.getSession);
 
   return (
     <Route
@@ -27,10 +29,7 @@ function PrivateRoute(props) {
 }
 
 PrivateRoute.propTypes = {
-  session: PropTypes.object.isRequired,
   component: PropTypes.func.isRequired,
 };
 
-export default connect(state => ({
-  session: state.session,
-}))(PrivateRoute);
+export default PrivateRoute;

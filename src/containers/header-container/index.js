@@ -1,17 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useMappedState } from 'redux-react-hook';
+import useReactRouter from 'use-react-router';
 import * as actions from '@store/actions';
+import * as selectors from '@store/selectors';
 import { detectActive } from '@utils';
 import LayoutHeader from '@components/layouts/layout-header';
 import MenuTop from '@components/menus/menu-top';
 import Button from '@components/elements/button';
 import Logo from '@components/elements/logo';
 
-function HeaderContainer(props) {
-  const { location, history, dispatch, session } = props;
+function HeaderContainer() {
+  const { history, location } = useReactRouter();
+  const dispatch = useDispatch();
+  const { session } = useMappedState(selectors.getSession);
 
   const [items, setState] = useState(
     detectActive(
@@ -58,16 +59,6 @@ function HeaderContainer(props) {
   return <LayoutHeader left={<Logo />} right={renderRight()} center={<MenuTop items={items} />} />;
 }
 
-HeaderContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  location: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  session: PropTypes.object.isRequired,
-};
+HeaderContainer.propTypes = {};
 
-export default compose(
-  withRouter,
-  connect(state => ({
-    session: state.session,
-  })),
-)(HeaderContainer);
+export default HeaderContainer;

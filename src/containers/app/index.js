@@ -1,20 +1,21 @@
 import React, { Fragment, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useMappedState } from 'redux-react-hook';
+import * as selectors from '@store/selectors';
 import { Route, Router, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import PrivateRoute from '@containers/private-route';
 import * as actions from '@store/actions';
 
-import '@theme/style.less';
+import '../../theme/style.less';
 
 import { Home, About, Main, Login, NotFound } from '../pages';
 import Modals from '../modals';
 
 const history = createBrowserHistory();
 
-function App(props) {
-  const { dispatch, session } = props;
+function App() {
+  const dispatch = useDispatch();
+  const { session } = useMappedState(selectors.getSession);
 
   useEffect(() => {
     dispatch(actions.session.remind());
@@ -41,11 +42,6 @@ function App(props) {
   );
 }
 
-App.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  session: PropTypes.object.isRequired,
-};
+App.propTypes = {};
 
-export default connect(state => ({
-  session: state.session,
-}))(App);
+export default App;

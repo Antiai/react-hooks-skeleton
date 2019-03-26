@@ -1,11 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'redux-react-hook';
 import * as actions from '@store/actions';
 import { Button } from '@components/elements';
 import { LayoutModal } from '@components/layouts';
 
-function Info(props) {
-  const { dispatch } = props;
+function Info() {
+  const dispatch = useDispatch();
 
   const onCancel = () => {
     dispatch(actions.modal.close(false));
@@ -24,4 +24,4 @@ function Info(props) {
   );
 }
 
-export default connect()(Info);
+export default Info;

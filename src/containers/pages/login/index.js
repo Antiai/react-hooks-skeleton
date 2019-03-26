@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useMappedState } from 'redux-react-hook';
+import * as actions from '@store/actions';
+import * as selectors from '@store/selectors';
 import { LayoutPage } from '@components/layouts';
 import LayoutContent from '@components/layouts/layout-content';
 import HeaderContainer from '@containers/header-container';
 import FormLogin from '@components/forms/form-login';
-import * as actions from '@store/actions';
 
 function Login(props) {
-  const { dispatch, history, formLogin } = props;
+  const { history } = props;
+  const dispatch = useDispatch();
+  const { formLogin = {} } = useMappedState(selectors.getFormLogin);
 
   const onChangeForm = data => {
     dispatch(actions.formLogin.change(data));
@@ -40,12 +43,6 @@ function Login(props) {
 
 Login.propTypes = {
   history: PropTypes.object.isRequired,
-  session: PropTypes.object.isRequired,
-  formLogin: PropTypes.object,
-  dispatch: PropTypes.func.isRequired,
 };
 
-export default connect(state => ({
-  formLogin: state.formLogin,
-  session: state.session,
-}))(Login);
+export default Login;

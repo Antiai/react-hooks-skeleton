@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useMappedState } from 'redux-react-hook';
 import * as actions from '@store/actions';
 import * as modals from './config.js';
+import * as selectors from '@store/selectors';
 
-function Modals({ dispatch, history, modal }) {
+function Modals({ history }) {
+  const dispatch = useDispatch();
+  const { modal = {} } = useMappedState(selectors.getModal);
+
   function getModal() {
     const props = {
       ...modal.params,
@@ -45,11 +49,7 @@ function Modals({ dispatch, history, modal }) {
 }
 
 Modals.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  modal: PropTypes.object.isRequired,
 };
 
-export default connect(state => ({
-  modal: state.modal,
-}))(Modals);
+export default Modals;
