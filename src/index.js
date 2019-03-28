@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import { StoreContext } from 'redux-react-hook';
 import store from './store/store.js';
 import App from './containers/app';
 import http from './utils/http.js';
@@ -10,8 +10,8 @@ import './theme/style.less';
 http.init(store);
 
 ReactDOM.render(
-  <Provider store={store}>
+  <StoreContext.Provider value={store}>
     <App />
-  </Provider>,
+  </StoreContext.Provider>,
   document.getElementById('app'),
 );

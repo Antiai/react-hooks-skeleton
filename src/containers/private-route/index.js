@@ -1,40 +1,35 @@
 /* eslint-disable */
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Route, Redirect } from 'react-router';
+import { useMappedState } from 'redux-react-hook';
+import { Route, Redirect } from 'react-router-dom';
+import * as selectors from '@store/selectors';
 
-class PrivateRoute extends Component {
-  static propTypes = {
-    session: PropTypes.object.isRequired,
-    component: PropTypes.func.isRequired,
-  };
+function PrivateRoute(props) {
+  const { component: Component, ...rest } = props;
+  const { session } = useMappedState(selectors.getSession);
 
-  render() {
-    const { session, component: Component, ...rest } = this.props;
-
-    return (
-      <Route
-        {...rest}
-        render={props =>
-          session.user && session.user._id ? (
-            <Component {...props} />
-          ) : (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: { from: props.location }
-              }}
-            />
-          )
-        }
-      />
-    )
-  }
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        session.user && session.user._id ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: props.location },
+            }}
+          />
+        )
+      }
+    />
+  );
 }
 
-export default connect(
-  state => ({
-    session: state.session,
-  }),
-)(PrivateRoute);
+PrivateRoute.propTypes = {
+  component: PropTypes.func.isRequired,
+};
+
+export default PrivateRoute;

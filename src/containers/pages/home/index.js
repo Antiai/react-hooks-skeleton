@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'redux-react-hook';
 import { Link } from 'react-router-dom';
 import * as actions from '@store/actions';
 import Accordion from '@components/elements/accordion';
@@ -9,36 +8,33 @@ import LayoutPage from '@components/layouts/layout-page';
 import LayoutContent from '@components/layouts/layout-content';
 import HeaderContainer from '@containers/header-container';
 
-class Home extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
-  };
+function Home() {
+  const dispatch = useDispatch();
 
-  showInfo = () => {
-    this.props.dispatch(actions.modal.open('info')).then(result => {
+  const showInfo = useCallback(() => {
+    dispatch(actions.modal.open('info')).then(result => {
       console.log(result);
     });
-  };
+  }, [dispatch]);
 
-  render() {
-    return (
-      <LayoutPage header={<HeaderContainer />}>
-        <LayoutContent>
-          <h1>Главная страница</h1>
-          <p>
-            <Link to="/main">Раздел для авторизованных</Link>
-          </p>
-          <p>
-            <Button onClick={this.showInfo}>Показать модалку</Button>
-          </p>
-          <Accordion title={'Заголовок'}>
-            text for accordion, with other components, ex. <Button>Button</Button>
-          </Accordion>
-        </LayoutContent>
-      </LayoutPage>
-    );
-  }
+  return (
+    <LayoutPage header={<HeaderContainer />}>
+      <LayoutContent>
+        <h1>Главная страница</h1>
+        <p>
+          <Link to="/main">Раздел для авторизованных</Link>
+        </p>
+        <p>
+          <Button onClick={showInfo}>Показать модалку</Button>
+        </p>
+        <Accordion title={'Заголовок'}>
+          text for accordion, with other components, ex. <Button>Button</Button>
+        </Accordion>
+      </LayoutContent>
+    </LayoutPage>
+  );
 }
 
-export default connect()(Home);
+Home.propTypes = {};
+
+export default Home;
