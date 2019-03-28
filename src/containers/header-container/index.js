@@ -1,89 +1,64 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useMappedState } from 'redux-react-hook';
+import useReactRouter from 'use-react-router';
 import * as actions from '@store/actions';
+import * as selectors from '@store/selectors';
 import { detectActive } from '@utils';
 import LayoutHeader from '@components/layouts/layout-header';
 import MenuTop from '@components/menus/menu-top';
 import Button from '@components/elements/button';
 import Logo from '@components/elements/logo';
 
-class HeaderContainer extends Component {
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
-    session: PropTypes.object.isRequired,
+function HeaderContainer() {
+  const { history, location } = useReactRouter();
+  const dispatch = useDispatch();
+  const { session } = useMappedState(selectors.getSession);
+
+  const [items, setState] = useState(
+    detectActive(
+      [
+        { title: 'Главная', to: '/', active: false },
+        { title: 'О нас', to: '/about', active: false },
+        { title: '404', to: '/some-page', active: false },
+      ],
+      location,
+    ),
+  );
+
+  useEffect(() => {
+    setState(detectActive(items, location));
+  }, [items, location]);
+
+  const onClickLogin = () => {
+    history.push('/login');
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      items: detectActive(
-        [
-          { title: 'Главная', to: '/', active: false },
-          { title: 'О нас', to: '/about', active: false },
-          { title: '404', to: '/some-page', active: false },
-        ],
-        props.location,
-      ),
-    };
-  }
-
-  componentDidUpdate(nextProps) {
-    const { items } = this.state;
-    const { location } = this.props;
-
-    if (location !== nextProps.location) {
-      this.setState({
-        items: detectActive(items, nextProps.location),
-      });
-    }
-  }
-
-  onClickLogin = () => {
-    this.props.history.push('/login');
+  const onClickLogout = () => {
+    dispatch(actions.session.clear());
   };
 
-  onClickLogout = () => {
-    this.props.dispatch(actions.session.clear());
-  };
-
-  renderRight() {
-    const { session } = this.props;
-    const items = [];
+  const renderRight = () => {
+    const buttons = [];
 
     if (session.exists) {
-      items.push(
-        <Button key={1} theme={['clear-white', 'margins']} onClick={this.onClickLogout}>
+      buttons.push(
+        <Button key={1} theme={['clear-white', 'margins']} onClick={onClickLogout}>
           Выход
         </Button>,
       );
     } else {
-      items.push(
-        <Button key={1} theme={['clear-white', 'margins']} onClick={this.onClickLogin}>
+      buttons.push(
+        <Button key={1} theme={['clear-white', 'margins']} onClick={onClickLogin}>
           Вход
         </Button>,
       );
     }
-    return items;
-  }
+    return buttons;
+  };
 
-  render() {
-    const { items } = this.state;
-
-    return (
-      <LayoutHeader left={<Logo />} right={this.renderRight()} center={<MenuTop items={items} />} />
-    );
-  }
+  return <LayoutHeader left={<Logo />} right={renderRight()} center={<MenuTop items={items} />} />;
 }
 
-export default compose(
-  withRouter,
-  connect(state => ({
-    session: state.session,
-  })),
-)(HeaderContainer);
+HeaderContainer.propTypes = {};
+
+export default HeaderContainer;

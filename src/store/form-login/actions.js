@@ -1,4 +1,4 @@
-import * as api from '../../api';
+import * as api from '@api';
 import * as actions from '../actions';
 
 export const types = {

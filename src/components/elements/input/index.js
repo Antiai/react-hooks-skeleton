@@ -1,77 +1,76 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import themes from '../../../utils/themes';
+import { noop, themes } from '@utils';
 
 import './style.less';
 
-class Input extends Component {
-  static propTypes = {
-    value: PropTypes.node.isRequired,
-    type: PropTypes.string,
-    placeholder: PropTypes.string,
-    required: PropTypes.bool,
-    focused: PropTypes.bool,
-    disabled: PropTypes.bool,
-    tabIndex: PropTypes.number,
-    autocomplete: PropTypes.bool,
-    onChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-    theme: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  };
+function Input(props) {
+  const {
+    onChange: handleChange,
+    onFocus: handleFocus,
+    onBlur: handleBlur,
+    type,
+    placeholder,
+    required,
+    focused,
+    value,
+    theme,
+    disabled,
+    tabIndex,
+    autocomplete,
+  } = props;
 
-  static defaultProps = {
-    onBlur: () => {},
-    onChange: () => {},
-    onFocus: () => {},
-    disabled: false,
-    type: 'text',
-  };
-
-  onChange = e => {
-    const { onChange } = this.props;
-
+  const onChange = e => {
     const value = e.target.value;
-    return onChange(value);
+    return handleChange(value);
   };
 
-  onFocus = e => this.props.onFocus(e);
+  const onFocus = e => handleFocus(e);
 
-  onBlur = () => this.props.onBlur();
+  const onBlur = () => handleBlur();
 
-  render() {
-    const {
-      type,
-      placeholder,
-      required,
-      focused,
-      value,
-      theme,
-      disabled,
-      tabIndex,
-      autocomplete,
-    } = this.props;
-
-    return (
-      <div className={cn('Input', themes('Input', theme))}>
-        <input
-          className="Input__input"
-          value={value}
-          type={type}
-          placeholder={placeholder}
-          tabIndex={tabIndex}
-          disabled={disabled}
-          required={required}
-          autoFocus={focused}
-          autoComplete={autocomplete ? 'on' : 'off'}
-          onChange={this.onChange}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className={cn('Input', themes('Input', theme))}>
+      <input
+        className="Input__input"
+        value={value}
+        type={type}
+        placeholder={placeholder}
+        tabIndex={tabIndex}
+        disabled={disabled}
+        required={required}
+        autoFocus={focused}
+        autoComplete={autocomplete ? 'on' : 'off'}
+        onChange={onChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      />
+    </div>
+  );
 }
+
+Input.propTypes = {
+  value: PropTypes.node.isRequired,
+  type: PropTypes.string,
+  placeholder: PropTypes.string,
+  required: PropTypes.bool,
+  focused: PropTypes.bool,
+  disabled: PropTypes.bool,
+  tabIndex: PropTypes.number,
+  autocomplete: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+};
+
+Input.defaultProps = {
+  onBlur: noop,
+  onChange: noop,
+  onFocus: noop,
+  disabled: false,
+  type: 'text',
+};
 
 export default Input;

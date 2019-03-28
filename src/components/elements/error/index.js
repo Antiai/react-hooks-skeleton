@@ -4,20 +4,15 @@
  * Компонент выводит ошибку, если по указанному ключу есть ошибка в общем массиве ошибок
  * @todo Вместо массива ошибок использовать объект, чтобы оптимизироват поиск
  */
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import './style.less';
 
-class Error extends Component {
-  static propTypes = {
-    path: PropTypes.string,
-    errors: PropTypes.any,
-  };
+function Error(props) {
+  const { path, errors } = props;
 
-  renderItems() {
-    const { path, errors } = this.props;
-
+  const renderItems = () => {
     if (!errors && !(errors instanceof Array) && !(errors instanceof Object)) {
       return null;
     }
@@ -42,11 +37,14 @@ class Error extends Component {
       }
     });
     return items;
-  }
+  };
 
-  render() {
-    return <div className="Error">{React.Children.toArray(this.renderItems())}</div>;
-  }
+  return <div className="Error">{React.Children.toArray(renderItems())}</div>;
 }
+
+Error.propTypes = {
+  path: PropTypes.string,
+  errors: PropTypes.any,
+};
 
 export default Error;

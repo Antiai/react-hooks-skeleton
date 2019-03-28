@@ -7,7 +7,7 @@
       "jsx": true
     }
   },
-  "plugins": ["babel", "react", "prettier"],
+  "plugins": ["babel", "react", "react-hooks", "prettier"],
   "env": {
     "browser": true
   },
@@ -17,6 +17,8 @@
     "semi": ["error", "always"],
     "no-trailing-spaces": ["error", { "skipBlankLines": true }],
     "no-unused-vars": 1,
-    "react/prop-types": ["error", { "ignore": ["dispatch"], "skipUndeclared":true }]
+    "react/prop-types": ["error", { "ignore": ["dispatch"], "skipUndeclared":true }],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }

@@ -1,33 +1,31 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
-import themes from '../../../utils/themes';
+import { themes } from '@utils';
 
 import './style.less';
 
-class Logo extends Component {
-  static propTypes = {
-    to: PropTypes.string,
-    title: PropTypes.string,
-    theme: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  };
+function Logo(props) {
+  const { to, theme, title } = props;
 
-  static defaultProps = {
-    to: '/',
-    title: '',
-    theme: '',
-  };
-
-  render() {
-    const { to, theme, title } = this.props;
-
-    return (
-      <Link className={cn(`Logo`, themes('Logo', theme))} to={to} title={title}>
-        Skeleton
-      </Link>
-    );
-  }
+  return (
+    <Link className={cn(`Logo`, themes('Logo', theme))} to={to} title={title}>
+      Skeleton
+    </Link>
+  );
 }
+
+Logo.propTypes = {
+  to: PropTypes.string,
+  title: PropTypes.string,
+  theme: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+};
+
+Logo.defaultProps = {
+  to: '/',
+  title: '',
+  theme: '',
+};
 
 export default Logo;
