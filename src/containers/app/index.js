@@ -19,7 +19,7 @@ function App() {
 
   useEffect(() => {
     dispatch(actions.session.remind());
-  });
+  }, [dispatch]);
 
   // If checking token
   if (session.wait) {

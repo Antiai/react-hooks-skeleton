@@ -27,7 +27,7 @@ function HeaderContainer() {
 
   useEffect(() => {
     setState(detectActive(items, location));
-  }, [items, location]);
+  }, [location]);
 
   const onClickLogin = () => {
     history.push('/login');

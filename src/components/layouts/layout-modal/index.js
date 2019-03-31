@@ -23,7 +23,7 @@ function LayoutModal(props) {
     window.addEventListener('resize', autoPosition);
 
     return () => window.removeEventListener('resize', autoPosition);
-  });
+  }, [autoPosition]);
 
   function autoPosition() {
     let top = 10;
