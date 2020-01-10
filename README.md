@@ -1,7 +1,7 @@
 # Скелет приложения на React
 
 [Документация](https://vladimirshestakov.gitbooks.io/react-guid/content/) по разработке и описание 
-струкруры ([github](https://github.com/ylabio/react-guide))
+структуры ([github](https://github.com/ylabio/react-guide))
 
 ## Установка
 `npm install`
