@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useMappedState } from 'redux-react-hook';
+import { useDispatch } from 'react-redux';
 import useReactRouter from 'use-react-router';
 import * as actions from '@store/actions';
 import * as selectors from '@store/selectors';
 import { detectActive } from '@utils';
+import { useShallowEqualSelector } from '@hooks';
 import LayoutHeader from '@components/layouts/layout-header';
 import MenuTop from '@components/menus/menu-top';
 import Button from '@components/elements/button';
@@ -12,7 +13,7 @@ import Logo from '@components/elements/logo';
 function HeaderContainer() {
   const { history, location } = useReactRouter();
   const dispatch = useDispatch();
-  const { session } = useMappedState(selectors.getSession);
+  const { session } = useShallowEqualSelector(selectors.getSession);
 
   const [items, setState] = useState(
     detectActive(

@@ -1,5 +1,6 @@
 import React from 'react';
-import { useDispatch } from 'redux-react-hook';
+import { useDispatch } from 'react-redux';
+
 import * as actions from '@store/actions';
 import { Button } from '@components/elements';
 import { LayoutModal } from '@components/layouts';

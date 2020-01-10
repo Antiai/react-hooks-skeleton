@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useMappedState } from 'redux-react-hook';
+import { useDispatch } from 'react-redux';
+import { useShallowEqualSelector } from '@hooks';
 import * as actions from '@store/actions';
 import * as modals from './config.js';
 import * as selectors from '@store/selectors';
 
 function Modals({ history }) {
   const dispatch = useDispatch();
-  const { modal = {} } = useMappedState(selectors.getModal);
+  const { modal = {} } = useShallowEqualSelector(selectors.getModal);
 
   function getModal() {
     const props = {
