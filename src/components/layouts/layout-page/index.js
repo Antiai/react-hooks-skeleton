@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import PropTypes from 'prop-types';
 
 import './style.less';
@@ -22,4 +22,4 @@ LayoutPage.propTypes = {
   children: PropTypes.node,
 };
 
-export default LayoutPage;
+export default memo(LayoutPage);

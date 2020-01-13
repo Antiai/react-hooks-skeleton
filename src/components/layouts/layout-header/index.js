@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { themes } from '@utils';
@@ -34,4 +34,4 @@ LayoutHeader.defaultProps = {
   theme: '',
 };
 
-export default LayoutHeader;
+export default memo(LayoutHeader);

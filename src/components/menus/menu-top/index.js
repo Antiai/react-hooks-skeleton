@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
@@ -43,4 +43,4 @@ MenuTop.propTypes = {
   theme: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 };
 
-export default MenuTop;
+export default memo(MenuTop);

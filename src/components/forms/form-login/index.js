@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { themes, noop } from '@utils';
@@ -71,4 +71,4 @@ FormLogin.defaultProps = {
   onSubmit: noop,
 };
 
-export default FormLogin;
+export default memo(FormLogin);

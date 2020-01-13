@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { themes, noop } from '@utils';
@@ -45,4 +45,4 @@ Accordion.defaultProps = {
   onClick: noop,
 };
 
-export default Accordion;
+export default memo(Accordion);

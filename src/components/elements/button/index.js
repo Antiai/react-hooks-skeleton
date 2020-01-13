@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { themes } from '@utils';
@@ -46,4 +46,4 @@ Button.defaultProps = {
   theme: '',
 };
 
-export default Button;
+export default memo(Button);

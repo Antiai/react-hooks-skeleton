@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
 import * as actions from '@store/actions';
@@ -25,4 +25,4 @@ function Info() {
   );
 }
 
-export default Info;
+export default memo(Info);

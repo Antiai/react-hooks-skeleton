@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { memo, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { noop } from '@utils';
@@ -94,4 +94,4 @@ LayoutModal.defaultProps = {
   onClose: noop,
 };
 
-export default LayoutModal;
+export default memo(LayoutModal);
