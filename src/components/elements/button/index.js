@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { themes } from '@utils';
@@ -8,12 +8,15 @@ import './style.less';
 function Button(props) {
   const { theme, title, type, children, disabled, onClick } = props;
 
-  const handleClick = event => {
-    if (onClick) {
-      event.preventDefault();
-      onClick();
-    }
-  };
+  const handleClick = useCallback(
+    event => {
+      if (onClick) {
+        event.preventDefault();
+        onClick();
+      }
+    },
+    [onClick],
+  );
 
   return (
     <button

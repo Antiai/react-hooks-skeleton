@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useShallowEqualSelector } from '@hooks';
@@ -10,7 +10,19 @@ function Modals({ history }) {
   const dispatch = useDispatch();
   const { modal = {} } = useShallowEqualSelector(selectors.getModal);
 
-  function getModal() {
+  const hideBodyOverflow = useCallback(() => {
+    if (document.body.style.overflow !== 'hidden') {
+      //document.body.style.overflow = 'hidden';
+    }
+  }, []);
+
+  const resetBodyOverflow = useCallback(() => {
+    if (document.body.style.overflow === 'hidden') {
+      //document.body.style.overflow = '';
+    }
+  }, []);
+
+  const getModal = useCallback(() => {
     const props = {
       ...modal.params,
       history,
@@ -32,19 +44,15 @@ function Modals({ history }) {
     }
 
     return null;
-  }
-
-  function hideBodyOverflow() {
-    if (document.body.style.overflow !== 'hidden') {
-      //document.body.style.overflow = 'hidden';
-    }
-  }
-
-  function resetBodyOverflow() {
-    if (document.body.style.overflow === 'hidden') {
-      //document.body.style.overflow = '';
-    }
-  }
+  }, [
+    dispatch,
+    hideBodyOverflow,
+    history,
+    modal.name,
+    modal.params,
+    modal.show,
+    resetBodyOverflow,
+  ]);
 
   return getModal();
 }

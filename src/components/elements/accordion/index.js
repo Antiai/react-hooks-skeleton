@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { themes, noop } from '@utils';
@@ -10,10 +10,10 @@ function Accordion(props) {
 
   const [isOpen = true, setState] = useState();
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     setState(disabled ? isOpen : !isOpen);
     onClick();
-  };
+  }, [disabled, isOpen, onClick]);
 
   return (
     <div className={cn(`Accordion`, themes('Accordion', theme))}>

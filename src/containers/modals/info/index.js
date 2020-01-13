@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 
 import * as actions from '@store/actions';
@@ -8,18 +8,18 @@ import { LayoutModal } from '@components/layouts';
 function Info() {
   const dispatch = useDispatch();
 
-  const onCancel = () => {
+  const onCancel = useCallback(() => {
     dispatch(actions.modal.close(false));
-  };
+  }, [dispatch]);
 
-  const onSuccess = () => {
+  const onSuccess = useCallback(() => {
     dispatch(actions.modal.close(true));
-  };
+  }, [dispatch]);
 
-  const renderFooter = () => <Button onClick={onSuccess}>Всё понятно</Button>;
+  const footer = useMemo(() => <Button onClick={onSuccess}>Всё понятно</Button>, [onSuccess]);
 
   return (
-    <LayoutModal onClose={onCancel} footer={renderFooter()}>
+    <LayoutModal onClose={onCancel} footer={footer}>
       Модальное окно
     </LayoutModal>
   );

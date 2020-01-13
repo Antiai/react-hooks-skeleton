@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useShallowEqualSelector } from '@hooks';
@@ -14,15 +14,21 @@ function Login(props) {
   const dispatch = useDispatch();
   const { formLogin = {} } = useShallowEqualSelector(selectors.getFormLogin);
 
-  const onChangeForm = data => {
-    dispatch(actions.formLogin.change(data));
-  };
+  const onChangeForm = useCallback(
+    data => {
+      dispatch(actions.formLogin.change(data));
+    },
+    [dispatch],
+  );
 
-  const onSubmitForm = data => {
-    dispatch(actions.formLogin.submit(data)).then(() => {
-      history.replace('/main');
-    });
-  };
+  const onSubmitForm = useCallback(
+    data => {
+      dispatch(actions.formLogin.submit(data)).then(() => {
+        history.replace('/main');
+      });
+    },
+    [dispatch, history],
+  );
 
   return (
     <LayoutPage header={<HeaderContainer />}>

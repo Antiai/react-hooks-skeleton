@@ -4,7 +4,7 @@
  * Компонент выводит ошибку, если по указанному ключу есть ошибка в общем массиве ошибок
  * @todo Вместо массива ошибок использовать объект, чтобы оптимизироват поиск
  */
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import './style.less';
@@ -12,7 +12,7 @@ import './style.less';
 function Error(props) {
   const { path, errors } = props;
 
-  const renderItems = () => {
+  const items = useMemo(() => {
     if (!errors && !(errors instanceof Array) && !(errors instanceof Object)) {
       return null;
     }
@@ -37,9 +37,9 @@ function Error(props) {
       }
     });
     return items;
-  };
+  }, [errors, path]);
 
-  return <div className="Error">{React.Children.toArray(renderItems())}</div>;
+  return <div className="Error">{React.Children.toArray(items)}</div>;
 }
 
 Error.propTypes = {

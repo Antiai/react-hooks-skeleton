@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { noop, themes } from '@utils';
@@ -15,26 +15,25 @@ function Input(props) {
     required,
     focused,
     value,
+    name,
     theme,
     disabled,
     tabIndex,
     autocomplete,
   } = props;
 
-  const onChange = e => {
-    const value = e.target.value;
-    return handleChange(value);
-  };
+  const onChange = useCallback(event => handleChange(event), [handleChange]);
 
-  const onFocus = e => handleFocus(e);
+  const onFocus = useCallback(event => handleFocus(event), [handleFocus]);
 
-  const onBlur = () => handleBlur();
+  const onBlur = useCallback(() => handleBlur(), [handleBlur]);
 
   return (
     <div className={cn('Input', themes('Input', theme))}>
       <input
         className="Input__input"
         value={value}
+        name={name}
         type={type}
         placeholder={placeholder}
         tabIndex={tabIndex}
@@ -53,6 +52,7 @@ function Input(props) {
 Input.propTypes = {
   value: PropTypes.node.isRequired,
   type: PropTypes.string,
+  name: PropTypes.string,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
   focused: PropTypes.bool,
