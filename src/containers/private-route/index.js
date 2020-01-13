@@ -1,13 +1,13 @@
 /* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useMappedState } from 'redux-react-hook';
+import { useShallowEqualSelector } from '@hooks';
 import { Route, Redirect } from 'react-router-dom';
 import * as selectors from '@store/selectors';
 
 function PrivateRoute(props) {
   const { component: Component, ...rest } = props;
-  const { session } = useMappedState(selectors.getSession);
+  const { session } = useShallowEqualSelector(selectors.getSession);
 
   return (
     <Route

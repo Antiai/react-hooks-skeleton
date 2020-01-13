@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { themes } from '@utils';
@@ -30,4 +30,4 @@ LayoutField.defaultProps = {
   theme: '',
 };
 
-export default LayoutField;
+export default memo(LayoutField);

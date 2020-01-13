@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { themes, noop } from '@utils';
@@ -10,25 +10,34 @@ import './style.less';
 function FormLogin(props) {
   const { data, onChange: handleChange, onSubmit: handleSubmit, errors, wait, theme } = props;
 
-  const onChange = name => value => {
-    handleChange({ ...data, [name]: value });
-  };
+  const onChange = useCallback(
+    event => {
+      const {
+        target: { value, name },
+      } = event;
+      handleChange({ ...data, [name]: value });
+    },
+    [data, handleChange],
+  );
 
-  const onSubmit = event => {
-    event.preventDefault();
-    handleSubmit({ ...data });
-  };
+  const onSubmit = useCallback(
+    event => {
+      event.preventDefault();
+      handleSubmit({ ...data });
+    },
+    [data, handleSubmit],
+  );
 
   return (
     <form className={cn(`FormLogin`, themes('FormLogin', theme))} onSubmit={onSubmit}>
       <LayoutField
         label={'Логин'}
-        input={<Input type="text" value={data.login} onChange={onChange('login')} />}
+        input={<Input type="text" name="login" value={data.login} onChange={onChange} />}
         error={<Error errors={errors} path={'login'} />}
       />
       <LayoutField
         label={'Пароль'}
-        input={<Input type="password" value={data.password} onChange={onChange('password')} />}
+        input={<Input type="password" name="password" value={data.password} onChange={onChange} />}
         error={<Error errors={errors} path={'password'} />}
       />
       <LayoutField
@@ -62,4 +71,4 @@ FormLogin.defaultProps = {
   onSubmit: noop,
 };
 
-export default FormLogin;
+export default memo(FormLogin);

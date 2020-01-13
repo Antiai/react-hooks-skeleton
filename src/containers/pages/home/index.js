@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useDispatch } from 'redux-react-hook';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as actions from '@store/actions';
 import Accordion from '@components/elements/accordion';

@@ -1,8 +1,9 @@
 import React, { Fragment, useEffect } from 'react';
-import { useDispatch, useMappedState } from 'redux-react-hook';
+import { useDispatch } from 'react-redux';
 import * as selectors from '@store/selectors';
 import { Route, Router, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import { useShallowEqualSelector } from '@hooks';
 import PrivateRoute from '@containers/private-route';
 import * as actions from '@store/actions';
 
@@ -15,7 +16,7 @@ const history = createBrowserHistory();
 
 function App() {
   const dispatch = useDispatch();
-  const { session } = useMappedState(selectors.getSession);
+  const { session } = useShallowEqualSelector(selectors.getSession);
 
   useEffect(() => {
     dispatch(actions.session.remind());

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import list from './images';
 
@@ -9,7 +9,7 @@ function Icon(props) {
     throw new Error(`Icon not found ${name}`);
   }
 
-  const Element = list[name];
+  const Element = useMemo(() => list[name], [name]);
 
   return <Element className={className} {...rest} />;
 }

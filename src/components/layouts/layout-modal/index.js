@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { memo, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { noop } from '@utils';
@@ -16,40 +16,46 @@ function LayoutModal(props) {
     toolClose,
   } = props;
 
-  let modalNode = null;
+  let modalNode = useRef(null);
 
-  const resize = useEffect(() => {
+  const autoPosition = useCallback(() => {
+    let top = 10;
+    if (window.innerWidth > modalNode.current.clientHeight) {
+      //center
+      top = Math.max(top, (window.innerHeight - modalNode.current.clientHeight) / 2 - top);
+      //bottom
+      //top = window.innerHeight - modalNode.clientHeight - top*3;
+    }
+    modalNode.current.style.marginTop = `${top}px`;
+  }, [(modalNode.current || {}).clientHeight, (modalNode.current || {}).style]);
+
+  useEffect(() => {
     autoPosition();
     window.addEventListener('resize', autoPosition);
 
     return () => window.removeEventListener('resize', autoPosition);
   }, [autoPosition]);
 
-  function autoPosition() {
-    let top = 10;
-    if (window.innerWidth > modalNode.clientHeight) {
-      //center
-      top = Math.max(top, (window.innerHeight - modalNode.clientHeight) / 2 - top);
-      //bottom
-      //top = window.innerHeight - modalNode.clientHeight - top*3;
-    }
-    modalNode.style.marginTop = `${top}px`;
-  }
-
-  const onClose = event => {
-    event.preventDefault();
-    handleClose();
-  };
+  const onClose = useCallback(
+    event => {
+      event.preventDefault();
+      handleClose();
+    },
+    [handleClose],
+  );
 
   /**
    * Закрытие окна при клике в серую область
    * @param event
    */
-  const onCloseOverflow = event => {
-    if (overflowClose && event.target.dataset.modal === 'overflow') {
-      onClose(event);
-    }
-  };
+  const onCloseOverflow = useCallback(
+    event => {
+      if (overflowClose && event.target.dataset.modal === 'overflow') {
+        onClose(event);
+      }
+    },
+    [onClose, overflowClose],
+  );
 
   return (
     <div
@@ -59,7 +65,7 @@ function LayoutModal(props) {
       })}
       onClick={onCloseOverflow}
     >
-      <div className="LayoutModal" ref={ref => (modalNode = ref)}>
+      <div className="LayoutModal" ref={modalNode}>
         {toolClose ? <a className="LayoutModal__close" href="#" onClick={onClose} /> : null}
         <div className="LayoutModal__inner">
           {header ? <div className="LayoutModal__header">{header}</div> : null}
@@ -88,4 +94,4 @@ LayoutModal.defaultProps = {
   onClose: noop,
 };
 
-export default LayoutModal;
+export default memo(LayoutModal);
